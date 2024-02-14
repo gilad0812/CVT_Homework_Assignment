@@ -55,24 +55,31 @@
     </style>
 </head>
 <body>
+    <!-- container for the entire chat interface -->
     <div id="container">
+        <!-- container for displaying messages -->
         <div id="message-container">
-            <!-- Messages will be added here -->
+            <!-- messages will be added here -->
         </div>
+        <!-- container for input message and send button -->
         <div id="input-container">
             <input type="text" id="message-input" placeholder="Type your message here...">
+            <!-- button -->
             <button onclick="sendMessage()">Send</button>
         </div>
     </div>
     
+    <!-- socket.io library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
     <script>
         var socket = io();
 
+        // function to send a message
         function sendMessage() {
             var messageInput = document.getElementById('message-input');
             var message = messageInput.value.trim();
-            if (socket && message) { // Check if socket object is defined and message is not empty
+            // check if socket object is defined, message is not empty
+            if (socket && message) {
                 socket.emit('send_message', { sender: 'User', message: message });
                 messageInput.value = '';
             } else {
@@ -80,6 +87,7 @@
             }
         }
 
+        // Listen for new messages from server
         socket.on('new_message', function(data) {
             var messageContainer = document.getElementById('message-container');
             var newMessageElement = document.createElement('div');

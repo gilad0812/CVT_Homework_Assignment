@@ -6,7 +6,7 @@ import os
 app = Flask(__name__)
 socketio = SocketIO(app)
 
-# Check if the message history file exists, and if not, create it
+# Check if the message history file exists and if not create it
 message_history_file = 'message_history.json'
 if not os.path.exists(message_history_file):
     with open(message_history_file, 'w') as file:
@@ -18,13 +18,6 @@ try:
         message_history = json.load(file)
 except json.JSONDecodeError:
     message_history = []
-
-# If message history is empty, add some default messages
-if not message_history:
-    message_history = [
-        {'sender': 'User1', 'message': 'Hello!'},
-        {'sender': 'User2', 'message': 'Hi there!'}
-    ]
 
 # Print message history for debugging
 print("Message History:", message_history)
